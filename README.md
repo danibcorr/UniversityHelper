@@ -1,6 +1,4 @@
-Sure, here's the improved README translated into English:
-
-"# 🏫 University Helper
+# 🏫 University Helper
 
 ## 📝 Description
 
