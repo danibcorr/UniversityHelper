@@ -6,7 +6,7 @@ import streamlit as st
 
 # Set the page configuration for Streamlit
 st.set_page_config(page_title="Home", page_icon="🏠", layout="wide")
-st.title("🏠 Welcome to Your Document Management Tool")
+st.title("🏠 University Helper")
 st.sidebar.image("./images/logo.png")
 
 # %% Functions
