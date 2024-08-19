@@ -5,8 +5,8 @@ import streamlit as st
 # %% Parameters for Streamlit
 
 # Set the page configuration for Streamlit
-st.set_page_config(page_title = "Home", page_icon = "🏠")
-st.title("🏠 Home")
+st.set_page_config(page_title="Home", page_icon="🏠", layout="wide")
+st.title("🏠 Welcome to Your Document Management Tool")
 st.sidebar.image("./images/logo.png")
 
 # %% Functions
@@ -14,54 +14,71 @@ st.sidebar.image("./images/logo.png")
 def text_home() -> None:
 
     """
-    Display the home page content.
+    Display the home page content with an overview of the application's features.
     """
 
-    # Text related to the project summary
-    title_abstract = "# Abstract"
-    abstract_paragraph = """
-        This application offers several features to enhance document management. It includes a **Metadata** page to edit document metadata and add customized cover pages. 
-        Additionally, the **PDF to Markdown** page provides a tool to convert PDF documents into Markdown format, facilitating easier content 
-        editing and management. These features combine to provide a comprehensive solution for handling and analyzing various types 
-        of documents and data.
-    """
-    
-    # Text related to the metadata section
-    title_metadata = "# Metadata"
-    metadata_paragraph = """
-        There is a "**Metadata**" page that allows users to modify the metadata of documents and add a cover page with the document's name. 
-        This feature provides users with the ability to customize and organize their documents more effectively, ensuring that each document 
-        contains all the necessary information and a professional appearance.
-    """
+    # Project Overview
+    st.markdown("# Overview")
+    st.markdown("""
+    Welcome to our document management application, designed to simplify and enhance how you handle documents. 
+    Our app offers a suite of tools to help you edit metadata, convert files, transcribe audio, and more, 
+    all within a user-friendly interface.
+    """)
 
-    # Text related to the PDF to Markdown section
-    title_pdf_to_md = "# PDF to Markdown"
-    pdf_to_md_paragraph = """
-        Another feature is the "**PDF to Markdown**" page, which enables users to analyze a PDF document and convert it to Markdown (MD) format. 
-        This functionality is particularly useful for users who need to extract and edit content from PDF files, providing a seamless way to 
-        transform static documents into editable Markdown text.
-    """
+    col1, col2 = st.columns(2)
 
-    # Display the content
-    st.markdown(title_abstract)
-    st.markdown(abstract_paragraph)
+    with col1:
 
-    st.markdown(title_metadata)
-    st.markdown(metadata_paragraph)
+        # Metadata Section
+        st.markdown("# 📑 Metadata Editing")
+        st.markdown("""
+        Use the **Metadata** page to easily modify document metadata and add custom cover pages. 
+        This feature ensures your documents are well-organized and present a professional appearance, 
+        with all the necessary information right where it needs to be.
+        """)
 
-    st.markdown(title_pdf_to_md)
-    st.markdown(pdf_to_md_paragraph)
+        # PDF to Markdown Section
+        st.markdown("# 📄 PDF to Markdown Conversion")
+        st.markdown("""
+        The **PDF to Markdown** page allows you to convert PDF files into Markdown format, 
+        making content extraction and editing a breeze. 
+        It's an essential tool for anyone who works with static documents but needs the flexibility of Markdown.
+        """)
+
+        # Audio Transcription Section
+        st.markdown("# 🎙️ Audio Transcription")
+        st.markdown("""
+        Our **Audio Transcription** feature lets you transcribe audio files directly within the app. 
+        Whether you're converting YouTube videos, recorded lectures, or other audio content, 
+        this tool makes it simple to generate text transcripts for further analysis or documentation.
+        """)
+
+    with col2:
+            
+        # Pomodoro Timer Section
+        st.markdown("# ⏲️ Pomodoro Timer")
+        st.markdown("""
+        Stay productive with our **Pomodoro Timer**. This feature helps you manage your time effectively, 
+        breaking your work into intervals with short breaks to boost focus and prevent burnout.
+        """)
+
+        # Stats Section
+        st.markdown("# 📊 Stats and Insights")
+        st.markdown("""
+        The **Stats** page offers insights and statistics to track your productivity and document management activities. 
+        Analyze your work patterns and improve your efficiency with data-driven insights.
+        """)
 
 def main() -> None:
 
     """
     Main entry point of the application.
     """
-
+    
     text_home()
 
 # %% Main
 
 if __name__ == '__main__':
-
+    
     main()
