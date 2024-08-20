@@ -87,6 +87,7 @@ def modify_metadata_and_add_cover(pdf_path: str, degree_name: str, output_path: 
     
     # Save the file with modified metadata and added cover
     temp_output_path = output_path + ".temp"
+    
     with open(temp_output_path, 'wb') as modified_file:
 
         writer.write(modified_file)

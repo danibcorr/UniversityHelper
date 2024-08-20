@@ -1,18 +1,19 @@
 # %% Libraries
 
 import streamlit as st
-import fitz  # PyMuPDF
+# PyMuPDF
+import fitz  
 from PIL import Image
 import pytesseract
 import cv2 
 import numpy as np
 from markdownify import markdownify as md
-import PyPDF2
+from PyPDF2 import PdfReader
 
 # %% Parameters for Streamlit
 
 # Set the page configuration for Streamlit
-st.set_page_config(page_title = "PDF2MD", page_icon = "📄", layout = "wide")
+st.set_page_config(page_title="PDF2MD", page_icon="📄", layout="wide")
 st.title("📄 PDF to Markdown")
 st.sidebar.image("./images/logo.png")
 
@@ -51,7 +52,7 @@ def extract_text_from_pdf_ocr(pdf_file, ln: str) -> str or None:
     try:
 
         # Open the PDF file
-        pdf_document = fitz.open(stream = pdf_file.read(), filetype = "pdf")
+        pdf_document = fitz.open(stream=pdf_file.read(), filetype="pdf")
         text = ""
 
         for page_num in range(len(pdf_document)):
@@ -66,7 +67,7 @@ def extract_text_from_pdf_ocr(pdf_file, ln: str) -> str or None:
             img = preprocess_image(img)
 
             # Apply OCR to the image
-            page_text = pytesseract.image_to_string(img, lang = ln)
+            page_text = pytesseract.image_to_string(img, lang=ln)
             text += page_text + "\n"
 
         return text
@@ -74,7 +75,6 @@ def extract_text_from_pdf_ocr(pdf_file, ln: str) -> str or None:
     except Exception as e:
 
         st.error(f"Error extracting text from PDF using OCR: {e}")
-
         return None
 
 def extract_text_from_pdf_pypdf2(pdf_file) -> str or None:
@@ -92,19 +92,18 @@ def extract_text_from_pdf_pypdf2(pdf_file) -> str or None:
     try:
 
         # Open the PDF file
-        pdf_reader = PyPDF2.PdfFileReader(pdf_file)
+        pdf_reader = PdfReader(pdf_file)  # Updated to PdfReader
         text = ""
 
         for page in pdf_reader.pages:
 
-            text += page.extractText() + "\n"
+            text += page.extract_text() + "\n"
 
         return text
 
     except Exception as e:
 
         st.error(f"Error extracting text from PDF using PyPDF2: {e}")
-
         return None
 
 def extract_text_from_pdf_ctrl_a(pdf_file) -> str or None:
@@ -122,19 +121,18 @@ def extract_text_from_pdf_ctrl_a(pdf_file) -> str or None:
     try:
 
         # Open the PDF file
-        pdf_document = fitz.open(stream = pdf_file.read(), filetype = "pdf")
+        pdf_document = fitz.open(stream=pdf_file.read(), filetype="pdf")
         text = ""
 
         for page in pdf_document:
 
-            text += page.getText() + "\n"
+            text += page.get_text() + "\n"  # Updated to get_text()
 
         return text
 
     except Exception as e:
 
         st.error(f"Error extracting text from PDF using Ctrl+A: {e}")
-
         return None
 
 def convert_text_to_markdown(text: str) -> str:
@@ -150,7 +148,6 @@ def convert_text_to_markdown(text: str) -> str:
     """
 
     markdown_text = md(text)
-
     return markdown_text
 
 def main() -> None:
@@ -162,37 +159,40 @@ def main() -> None:
     col1, col2 = st.columns(2)
 
     with col1:
-            
-        st.subheader("File Configuration")
 
-        uploaded_file = st.file_uploader("Choose a PDF file", type = "pdf")
+        st.subheader("File configuration")
+
+        uploaded_file = st.file_uploader("Choose a PDF file", type="pdf")
 
         output_path = st.text_input('Enter the output directory', '.')
         output_file = st.text_input('Enter the output file name', 'output') 
         output_file = f"{output_path}/{output_file}.md"
 
-        ln = st.multiselect("List of available languages",
-            pytesseract.get_languages(), ["eng"])
-        ln = "+".join(ln)
-
     with col2:
-        
-        st.subheader("Method Configuration")
 
-        extraction_method = st.selectbox("Select the extraction method", ["OCR", "PyPDF2", "Ctrl+A"])
-        
-        st.markdown(
+        st.subheader("Method configuration")
+
+        st.info(
             '''
             + PyPDF2 method may not work well with scanned PDFs or PDFs with complex layouts.
             + Ctrl+A method may not work well with PDFs that contain a lot of graphics or tables. 
             + The OCR method is generally the most accurate, but it can be slow and may not work well with PDFs that contain a lot of noise or distortion.'''
         )
 
-    if uploaded_file is not None:
+        extraction_method = st.selectbox("Select the extraction method", ["OCR", "PyPDF2", "Ctrl+A"])
 
         if extraction_method == "OCR":
 
-            text = extract_text_from_pdf_ocr(uploaded_file, ln)
+            ln = st.multiselect("List of available languages", pytesseract.get_languages(), ["eng"])
+            ln = "+".join(ln)
+        
+    if uploaded_file is not None and st.button("Extract text"):
+
+        if extraction_method == "OCR":
+
+            with st.spinner("Applying OCR to the document..."):
+
+                text = extract_text_from_pdf_ocr(uploaded_file, ln)
 
         elif extraction_method == "PyPDF2":
 
@@ -202,25 +202,35 @@ def main() -> None:
 
             text = extract_text_from_pdf_ctrl_a(uploaded_file)
 
+        else:
+
+            st.error(f"Option not available.")
+            return None
+
         if text:
 
             markdown_text = convert_text_to_markdown(text)
             
-            st.subheader("Extracted Text")
-            st.text_area("Extracted Text", text, height = 300)
+            st.subheader("Extracted text")
+            st.text_area("Extracted Text", text, height=300, label_visibility="hidden")
             
-            save_button = st.button('Save as.md')
+            save_button = st.button('Save as .md')
             
             if save_button:
 
-                with open(output_file, 'w', encoding = 'utf-8') as f:
+                with open(output_file, 'w', encoding='utf-8') as f:
 
                     f.write(markdown_text)
 
                 st.success(f"File saved as {output_file}")
 
+        else:
+
+            st.error(f"An error has occurred during text extraction, please try again.")
+            return None
+
 # %% Main
 
 if __name__ == '__main__':
-
+    
     main()

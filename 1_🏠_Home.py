@@ -18,11 +18,11 @@ def text_home() -> None:
     """
 
     # Project Overview
-    st.markdown("# Overview")
+    st.markdown("# 🏛️ Overview")
     st.markdown("""
-    Welcome to our document management application, designed to simplify and enhance how you handle documents. 
-    Our app offers a suite of tools to help you edit metadata, convert files, transcribe audio, and more, 
-    all within a user-friendly interface.
+    Welcome to University Helper, your go-to solution for simplifying and enhancing document management. 
+    This application provides a range of tools, including metadata editing, file conversion, audio transcription, 
+    and more—all within an intuitive, easy-to-use interface.
     """)
 
     col1, col2 = st.columns(2)
@@ -30,43 +30,35 @@ def text_home() -> None:
     with col1:
 
         # Metadata Section
-        st.markdown("# 📑 Metadata Editing")
+        st.markdown("# 📑 Metadata editing")
         st.markdown("""
-        Use the **Metadata** page to easily modify document metadata and add custom cover pages. 
-        This feature ensures your documents are well-organized and present a professional appearance, 
-        with all the necessary information right where it needs to be.
+        Use the Metadata page to effortlessly modify document metadata and add custom cover pages.
         """)
 
         # PDF to Markdown Section
-        st.markdown("# 📄 PDF to Markdown Conversion")
+        st.markdown("# 📄 PDF to Markdown")
         st.markdown("""
-        The **PDF to Markdown** page allows you to convert PDF files into Markdown format, 
-        making content extraction and editing a breeze. 
-        It's an essential tool for anyone who works with static documents but needs the flexibility of Markdown.
-        """)
-
-        # Audio Transcription Section
-        st.markdown("# 🎙️ Audio Transcription")
-        st.markdown("""
-        Our **Audio Transcription** feature lets you transcribe audio files directly within the app. 
-        Whether you're converting YouTube videos, recorded lectures, or other audio content, 
-        this tool makes it simple to generate text transcripts for further analysis or documentation.
+        The PDF to Markdown page lets you convert PDF files into Markdown format, making content extraction 
+        and editing a breeze. This feature is especially useful for extracting text and using a language model 
+        (Large Language Model, LLM) to generate key points, summaries, and more.
         """)
 
     with col2:
-            
-        # Pomodoro Timer Section
-        st.markdown("# ⏲️ Pomodoro Timer")
+        
+        # Audio Transcription Section
+        st.markdown("# 🎙️ Audio transcription")
         st.markdown("""
-        Stay productive with our **Pomodoro Timer**. This feature helps you manage your time effectively, 
-        breaking your work into intervals with short breaks to boost focus and prevent burnout.
+        The Audio Transcription feature allows you to transcribe audio files directly within the app. 
+        Whether you're converting YouTube videos, recorded lectures, or other audio content, 
+        this tool simplifies the process of generating text transcripts for analysis or documentation. 
+        Additionally, you can use a language model to extract key points, summaries, and more from the transcribed text.
         """)
 
         # Stats Section
-        st.markdown("# 📊 Stats and Insights")
+        st.markdown("# 📊 Stats")
         st.markdown("""
-        The **Stats** page offers insights and statistics to track your productivity and document management activities. 
-        Analyze your work patterns and improve your efficiency with data-driven insights.
+        The Stats page provides insights and statistics to help you track your productivity and document management 
+        activities. Analyze your work patterns and boost your efficiency with data-driven insights.
         """)
 
 def main() -> None:

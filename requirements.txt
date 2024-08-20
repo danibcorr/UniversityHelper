@@ -12,4 +12,6 @@ openai-whisper==20231117
 streamlit-audiorecorder==0.0.5
 plotly==5.22.0
 opencv-python==4.10.0.84
-yt-dlp
+yt-dlp 
+python-doctr
+torchvision

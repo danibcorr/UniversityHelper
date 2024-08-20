@@ -30,9 +30,9 @@ def download_youtube_video(temp_dir: str) -> str:
         str: The path to the downloaded audio file.
     """
     
-    url = st.text_input("Enter the URL of the YouTube video to transcribe", "https://www.youtube.com/watch?v=YbADVar8tjY")
+    url = st.text_input("Enter the URL of the YouTube video to transcribe:", "https://www.youtube.com/watch?v=YbADVar8tjY")
 
-    if st.button("Download Video"):
+    if st.button("Download video"):
     
         # Create a progress bar
         progress_bar = st.progress(0)
@@ -57,8 +57,9 @@ def download_youtube_video(temp_dir: str) -> str:
                 info_dict = ydl.extract_info(url, download=True)
                 audio_file_path = ydl.prepare_filename(info_dict).replace('.webm', '.mp3')
 
-            progress_bar.empty()  # Remove progress bar when done
-            status_text.text("Download completed!")
+            # Remove progress bar when done
+            progress_bar.empty() 
+            status_text.success("Download completed")
 
             return audio_file_path
 
@@ -140,8 +141,8 @@ def transcribe_file(model: whisper.Whisper, file: str) -> str:
             result = model.transcribe(file, fp16=False)
 
         transcription_text = result['text']
-        st.write(f"Transcription: {transcription_text}")
-        st.success("Transcription completed!")
+        st.subheader("Transcription")
+        st.text_area("Transcription", transcription_text, height=300, label_visibility="hidden")
 
         return transcription_text
 
@@ -200,20 +201,28 @@ def main() -> None:
 
     with col1:
 
-        st.subheader("Model Configuration")
+        st.subheader("Model configuration")
 
         # Model selection
-        model_option = st.selectbox("Select Whisper model",
+        st.info(
+            '''
+            + tiny: 39 M Parameters, ~1 GB Required VRAM, ~32x Relative speed
+            + base: 74 M Parameters, ~1 GB Required VRAM, ~16x Relative speed
+            + small: 244 M Parameters, ~2 GB Required VRAM, ~6x Relative speed
+            + medium: 769 M Parameters, ~5 GB Required VRAM, ~2x Relative speed
+            + large: 1550 M Parameters, ~10 GB Required VRAM, ~1x Relative speed
+            '''
+        )
+        model_option = st.selectbox("Select Whisper model:",
                                     ("tiny", "base", "small", "medium", "large"),
                                     index=2)
 
         model = get_model(model_option)
 
-        st.subheader("File Configuration")
+        st.subheader("File configuration")
 
         # Transcription type selection
-        transcription_type = st.selectbox("Select transcription type",
-                                          ("File", "YouTube", "Microphone"))
+        transcription_type = st.selectbox("Select transcription type:", ("File", "YouTube", "Microphone"))
 
         if transcription_type == "File":
         
@@ -267,7 +276,7 @@ def main() -> None:
 
     with col2:
         
-        st.subheader("Save Transcription")
+        st.subheader("Save transcription")
         
         save_path = st.text_input("Enter the path to save the markdown file:", value=f"./transcriptions/transcription_{datetime.datetime.now().strftime('%Y%m%d_%H%M%S')}.md")
 
