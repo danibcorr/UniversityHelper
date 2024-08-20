@@ -171,6 +171,7 @@ def save_markdown(text: str, filename: str) -> None:
             f.write(text)
 
         st.success(f"Transcription saved as markdown to {filename}")
+        st.session_state.transcription_text = None
 
     except IOError as e:
     
@@ -201,6 +202,15 @@ def main() -> None:
 
     with col1:
 
+        st.subheader("File configuration")
+
+        save_path = st.text_input("Enter the path to save the markdown file:", value=f"./transcriptions/transcription_{datetime.datetime.now().strftime('%Y%m%d_%H%M%S')}.md")
+
+        # Transcription type selection
+        transcription_type = st.selectbox("Select transcription type:", ("File", "YouTube", "Microphone"))
+
+    with col2:
+        
         st.subheader("Model configuration")
 
         # Model selection
@@ -213,16 +223,15 @@ def main() -> None:
             + large: 1550 M Parameters, ~10 GB Required VRAM, ~1x Relative speed
             '''
         )
+        
         model_option = st.selectbox("Select Whisper model:",
                                     ("tiny", "base", "small", "medium", "large"),
                                     index=2)
 
         model = get_model(model_option)
 
-        st.subheader("File configuration")
+    with col1:
 
-        # Transcription type selection
-        transcription_type = st.selectbox("Select transcription type:", ("File", "YouTube", "Microphone"))
 
         if transcription_type == "File":
         
@@ -274,14 +283,10 @@ def main() -> None:
         
                         st.session_state.transcription_text = transcription_text
 
-    with col2:
+    if 'transcription_text' in st.session_state and st.session_state.transcription_text is not None:
         
-        st.subheader("Save transcription")
-        
-        save_path = st.text_input("Enter the path to save the markdown file:", value=f"./transcriptions/transcription_{datetime.datetime.now().strftime('%Y%m%d_%H%M%S')}.md")
-
-        if 'transcription_text' in st.session_state and st.button("Save as Markdown"):
-        
+        if st.button("Save as Markdown"):
+                
             save_markdown(st.session_state.transcription_text, save_path)
 
 # %% Main
