@@ -1,5 +1,9 @@
 # 🏫 University Helper
 
+<figure style="display: flex; justify-content: center;">
+  <img src="./images/image_README.png" alt="Problema de clasificación supervisado." width="900" height="400">
+</figure>
+
 ## 📝 Overview
 
 University Helper is a comprehensive toolset designed to assist students, educators, and researchers in managing and processing various types of academic data. This repository contains several scripts, each dedicated to a specific task, from metadata management to audio transcription and beyond. 
@@ -19,7 +23,7 @@ To use the University Helper, you'll need to set up the project locally. Follow 
 1. **Clone the Repository:**
 
    ```bash
-   git clone [repository-url]
+   git clone https://github.com/danibcorr/UniversityHelper.git
    ```
 
 2. **Install Dependencies:**
