@@ -1,0 +1,32 @@
+[tool.poetry]
+name = "university-helper"
+version = "0.1.0"
+description = "University Helper streamlines academic and administrative tasks for students, educators, and researchers. It provides tools for managing document metadata, converting PDFs to Markdown, transcribing audio, analyzing grade statistics, and more."
+authors = ["danibcorr <danibcorr@gmail.com>"]
+license = "MIT"
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.10"
+reportlab = "^4.2.2"
+faker = "^28.0.0"
+pypdf2 = "^3.0.1"
+pikepdf = "^9.2.0"
+streamlit = "^1.37.1"
+stqdm = "^0.0.5"
+pymupdf = "^1.24.9"
+pillow = "^10.4.0"
+pytesseract = "^0.3.13"
+markdownify = "^0.13.1"
+openai-whisper = "^20231117"
+streamlit-audiorecorder = "^0.0.5"
+plotly = "^5.23.0"
+opencv-python = "^4.10.0.84"
+yt-dlp = "^2024.8.6"
+langchain = "^0.2.14"
+langchain-community = "^0.2.12"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
